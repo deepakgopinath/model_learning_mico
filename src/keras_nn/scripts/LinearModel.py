@@ -37,7 +37,7 @@ class LinearModel(object):
 
 	def cost_function(self, y_true, y_pred):
 		# embed()
-		return tf.reduce_mean(tf.square(y_pred - y_true), reduction_indices = 1, keep_dims = False)
+		return tf.reduce_mean(tf.square(y_pred - y_true), reduction_indices = 1, keep_dims = False) # + tf.abs((1 - tf.norm(y_pred, ord='euclidean')))
 		
 
 	def test(self, testX, testY):
