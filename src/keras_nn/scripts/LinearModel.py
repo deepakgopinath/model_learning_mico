@@ -6,6 +6,9 @@ from keras.layers.merge import add
 from keras.models import Model, Sequential
 from keras.optimizers import SGD
 from IPython import embed
+# import tf.transformations as tfs
+import tensorflow as tf
+
 
 class LinearModel(object):
 	"""docstring for LinearModel"""
@@ -32,12 +35,17 @@ class LinearModel(object):
 		#might need a different cost function that mse to take into account the SO(3) nature of quaternions
 		self.m.fit(trainX, trainY,epochs = 200, batch_size=5)
 
-	# def cost_function(self, y_true, y_pred):
+	def cost_function(self, y_true, y_pred):
+		# embed()
+		return tf.reduce_mean(tf.square(y_pred - y_true), reduction_indices = 1, keep_dims = False)
 		
 
 	def test(self, testX, testY):
 		print "THE LEARNED WEIGHTS ARE", self.m.get_weights()
 		print "MSE ON TEST SET IS ", self.m.evaluate(testX, testY, verbose=0)
+
+	def predict(self, X):
+		return self.m.predict(X, verbose = 0)
 
 
 

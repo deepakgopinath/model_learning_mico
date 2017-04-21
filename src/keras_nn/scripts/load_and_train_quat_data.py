@@ -16,7 +16,7 @@ def load_quat_data():
 	UA_all = np.empty((4,0)) #qrate matrix. 
 	X_all = np.empty((8,0))
 	Y_all = np.empty((4,0))
-	path = '/home/deepak/Desktop/NorthwesternStuff/Courses/ArchiveQuarters/Fall2016/DeepLearningUdacity/nn_mico/src/keras_nn/scripts/QuatData'
+	path = '/home/deepak/Desktop/Code/model_learning_mico/src/keras_nn/scripts/QuatData'
 
 	for filename in glob.glob(os.path.join(path, '*.pkl')):
 		with open(filename, 'rb') as openfile:
@@ -51,7 +51,7 @@ def load_quat_data():
 
 	X_all = np.concatenate((XA_all, UA_all), axis=0) #stack X and U on top of each other. 8, N size.
 	XTr, XTe, YTrain, YTest = train_test_split(X_all.T, Y_all.T, test_size = 0.1)
-	embed()
+	# embed()
 	XTr = XTr.T 
 	XTrain = XTr[0:4, :].T
 	UTrain = XTr[4:8, :].T
@@ -59,14 +59,15 @@ def load_quat_data():
 	XTest = XTe[0:4, :].T
 	UTest = XTe[4:8, :].T
 	
-	embed()
+	# embed()
 	#instantiate model
 	lm = LinearModel(XTrain.shape[1], UTrain.shape[1], YTrain.shape[1])
 	# embed()
 	lm.train([XTrain, UTrain], YTrain)
-	# embed()
+	embed()
 	lm.test([XTest, UTest], YTest)
 	# embed()
+	
 		
 if __name__ == '__main__':
 	load_quat_data()

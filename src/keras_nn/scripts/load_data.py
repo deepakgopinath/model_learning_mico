@@ -14,7 +14,7 @@ def load_data():
     Y_all = np.empty((6,0))
     X_ten = np.empty((6,0))
     Y_ten = np.empty((6,0))
-    path = '/home/deepak/Desktop/NorthwesternStuff/Courses/ArchiveQuarters/Fall2016/DeepLearningUdacity/nn_mico/src/keras_nn/scripts/Data'
+    path = '/home/deepak/Desktop/Code/model_learning_mico/src/keras_nn/scripts/Data'
 
     for filename in glob.glob(os.path.join(path, '*.pkl')):
         if 'K.pkl' not in filename and 'A.pkl' not in filename and 'B.pkl' not in filename:

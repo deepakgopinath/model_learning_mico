@@ -53,7 +53,7 @@ Y = Y_train
 # yU = np.dot(W2, U.transpose()).transpose()
 # Y = yX + yU
 # yA = np.dot(xA, [2., 3.])
-embed()
+# embed()
 
 # print x[:5]
 # lm = Sequential([Dense(2, input_shape=(2,))])
@@ -93,9 +93,9 @@ input_U = Input(name='inputU', shape=(3,), dtype='float32')
 out_U = Dense(3, activation='linear', name='outU')(input_U)
 out = add([out_A, out_U])
 m = Model([input_A, input_U], out)
-embed()
+# embed()
 m.compile(loss='mse', optimizer='sgd')
-m.fit([X, U], Y,epochs = 2000, batch_size=10)
+m.fit([X, U], Y,epochs = 100, batch_size=10)
 print m.get_weights()
 print m.evaluate([XA_test,XB_test], Y_test, verbose=0)
-embed()
+# embed()
