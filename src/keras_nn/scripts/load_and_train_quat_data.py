@@ -16,8 +16,8 @@ def load_quat_data():
 	UA_all = np.empty((4,0)) #qrate matrix. 
 	X_all = np.empty((8,0))
 	Y_all = np.empty((4,0))
-	# path = '/home/deepak/Desktop/Code/model_learning_mico/src/keras_nn/scripts/QuatData'
-	path =  '/home/deepak/Desktop/NorthwesternStuff/Courses/ArchiveQuarters/Fall2016/DeepLearningUdacity/nn_mico/src/keras_nn/scripts/QuatData'
+	path = '/home/deepak/Desktop/Code/model_learning_mico/src/keras_nn/scripts/QuatData'
+	# path =  '/home/deepak/Desktop/NorthwesternStuff/Courses/ArchiveQuarters/Fall2016/DeepLearningUdacity/nn_mico/src/keras_nn/scripts/QuatData'
 
 
 	for filename in glob.glob(os.path.join(path, '*.pkl')):
@@ -25,7 +25,7 @@ def load_quat_data():
 			data_dict = pickle.load(openfile)
 			quats = data_dict['orientation']
 			w = data_dict['orientation_vel']
-			embed()
+			# embed()
 			# zero_rows = np.where(~w.any(axis=1))[0]
 			# w = np.delete(w, zero_rows, axis=0)
 			# quats = np.delete(quats, zero_rows, axis=0)
@@ -39,10 +39,14 @@ def load_quat_data():
 	# embed()
 	for i in range(0, num_samples_all):
 		w = wA_all[:,i]
-		w_mat = np.matrix([[0, -w[0], -w[1], -w[2]],
-						   [w[0], 0, w[2], -w[1]],
-						   [w[1], -w[2], 0, w[0]],
-						   [w[2], w[1], -w[0], 0]])
+		# w_mat = np.matrix([[0, -w[0], -w[1], -w[2]],
+		# 				   [w[0], 0, w[2], -w[1]],
+		# 				   [w[1], -w[2], 0, w[0]],
+		# 				   [w[2], w[1], -w[0], 0]])
+		w_mat = np.matrix([ [0, w[2], -w[1], w[0]],
+							[-w[2], 0, w[0], w[1]],
+							[w[1], -w[0], 0, w[2]],
+							[-w[0], -w[1], -w[2], 0]])
 		q = XA_all[:,i]
 		q = q.reshape(q.size, 1) #make it proper column vector for matrix multiply
 		qdot = 0.5*w_mat*q 
@@ -74,7 +78,7 @@ def load_quat_data():
 		u = UTest[i, :].reshape(1, 4)
 		pred_norm[i] = np.linalg.norm(lm.predict([x,u]))
 
-	embed()
+	# embed()
 	lm.test([XTest, UTest], YTest)
 	# embed()
 	
