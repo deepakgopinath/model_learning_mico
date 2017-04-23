@@ -16,13 +16,16 @@ def load_quat_data():
 	UA_all = np.empty((4,0)) #qrate matrix. 
 	X_all = np.empty((8,0))
 	Y_all = np.empty((4,0))
-	path = '/home/deepak/Desktop/Code/model_learning_mico/src/keras_nn/scripts/QuatData'
+	# path = '/home/deepak/Desktop/Code/model_learning_mico/src/keras_nn/scripts/QuatData'
+	path =  '/home/deepak/Desktop/NorthwesternStuff/Courses/ArchiveQuarters/Fall2016/DeepLearningUdacity/nn_mico/src/keras_nn/scripts/QuatData'
+
 
 	for filename in glob.glob(os.path.join(path, '*.pkl')):
 		with open(filename, 'rb') as openfile:
 			data_dict = pickle.load(openfile)
 			quats = data_dict['orientation']
 			w = data_dict['orientation_vel']
+			embed()
 			# zero_rows = np.where(~w.any(axis=1))[0]
 			# w = np.delete(w, zero_rows, axis=0)
 			# quats = np.delete(quats, zero_rows, axis=0)
@@ -64,6 +67,13 @@ def load_quat_data():
 	lm = LinearModel(XTrain.shape[1], UTrain.shape[1], YTrain.shape[1])
 	# embed()
 	lm.train([XTrain, UTrain], YTrain)
+	# embed()
+	pred_norm = np.zeros(XTest.shape[0])	
+	for i in range(0, XTest.shape[0]):
+		x = XTest[i, :].reshape(1, 4)
+		u = UTest[i, :].reshape(1, 4)
+		pred_norm[i] = np.linalg.norm(lm.predict([x,u]))
+
 	embed()
 	lm.test([XTest, UTest], YTest)
 	# embed()
