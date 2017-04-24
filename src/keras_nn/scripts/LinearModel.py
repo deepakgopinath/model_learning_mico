@@ -27,7 +27,7 @@ class LinearModel(object):
 		self.out = add([self.out_A, self.out_U])
 		self.m = Model([self.input_A, self.input_U], self.out)
 		# self.m.compile(loss = self.cost_function, optimizer = 'sgd') 
-		self.m.compile(loss = 'mse', optimizer = 'sgd')
+		self.m.compile(loss = self.cost_function, optimizer = 'sgd')
 
 	
 
@@ -38,7 +38,13 @@ class LinearModel(object):
 
 	def cost_function(self, y_true, y_pred):
 		# embed()
-		return tf.reduce_mean(tf.square(y_pred - y_true), reduction_indices = 1, keep_dims = False) # + tf.abs((1 - tf.norm(y_pred, ord='euclidean')))
+		product = tf.multiply(y_pred, y_true)
+		idp = tf.reduce_sum(product, [1])
+		logcost = tf.abs(1 - idp)
+		# logcost = tf.log(tf.abs(1e-4 + 1 - tf.abs(idp)))
+		# logcost = tf.reduce_mean(logcost)
+		return logcost
+		# return tf.reduce_mean(tf.square(y_pred - y_true), reduction_indices = 1, keep_dims = False) # + tf.abs((1 - tf.norm(y_pred, ord='euclidean')))
 		
 
 	def test(self, testX, testY):

@@ -71,14 +71,14 @@ def load_quat_data():
 	lm = LinearModel(XTrain.shape[1], UTrain.shape[1], YTrain.shape[1])
 	# embed()
 	lm.train([XTrain, UTrain], YTrain)
-	# embed()
+	embed()
 	pred_norm = np.zeros(XTest.shape[0])	
 	for i in range(0, XTest.shape[0]):
 		x = XTest[i, :].reshape(1, 4)
 		u = UTest[i, :].reshape(1, 4)
 		pred_norm[i] = np.linalg.norm(lm.predict([x,u]))
 
-	# embed()
+	embed()
 	lm.test([XTest, UTest], YTest)
 	# embed()
 	
