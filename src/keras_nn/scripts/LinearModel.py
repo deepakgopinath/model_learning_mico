@@ -27,7 +27,7 @@ class LinearModel(object):
 		self.out = add([self.out_A, self.out_U])
 		self.m = Model([self.input_A, self.input_U], self.out)
 		# self.m.compile(loss = self.cost_function, optimizer = 'sgd') 
-		self.m.compile(loss = self.cost_function, optimizer = 'sgd')
+		self.m.compile(loss = 'mse', optimizer = 'sgd')
 
 	
 

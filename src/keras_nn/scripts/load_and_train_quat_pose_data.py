@@ -7,25 +7,27 @@ from IPython import embed
 from sklearn.cross_validation import train_test_split
 import os
 from LinearModel import LinearModel
+npa = np.array
 
 def load_quat_data():
 	num_samples_all = 0
 
 	XA_all = np.empty((4,0))
-	wA_all = np.empty((3,0)) #omega matrix
+	wA_all = np.empty((6,0)) #omega matrix
 	UA_all = np.empty((4,0)) #qrate matrix. 
 	X_all = np.empty((8,0))
 	Y_all = np.empty((4,0))
 	path = '/home/deepak/Desktop/Code/model_learning_mico/src/keras_nn/scripts/PoseData'
 	# path =  '/home/deepak/Desktop/NorthwesternStuff/Courses/ArchiveQuarters/Fall2016/DeepLearningUdacity/nn_mico/src/keras_nn/scripts/QuatData'
 
+	q_d = npa([-0.417, 0.467, -0.559,  -0.543])
 	
 	for filename in glob.glob(os.path.join(path, '*.pkl')):
 		with open(filename, 'rb') as openfile:
 			data_dict = pickle.load(openfile)
 			embed()
 			quats = data_dict['orientation']
-			w = data_dict['orientation_vel']
+			w = data_dict['input_vel']
 			# embed()
 			# zero_rows = np.where(~w.any(axis=1))[0]
 			# w = np.delete(w, zero_rows, axis=0)
@@ -39,7 +41,8 @@ def load_quat_data():
 
 	# embed()
 	for i in range(0, num_samples_all):
-		w = wA_all[:,i]
+		# embed()
+		w = wA_all[3:6,i] #just extrct the rotation part
 		# w_mat = np.matrix([[0, -w[0], -w[1], -w[2]],
 		# 				   [w[0], 0, w[2], -w[1]],
 		# 				   [w[1], -w[2], 0, w[0]],
