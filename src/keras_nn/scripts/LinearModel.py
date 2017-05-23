@@ -27,14 +27,14 @@ class LinearModel(object):
 		self.out = add([self.out_A, self.out_U])
 		self.m = Model([self.input_A, self.input_U], self.out)
 		# self.m.compile(loss = self.cost_function, optimizer = 'sgd') 
-		self.m.compile(loss = 'mse', optimizer = 'sgd')
+		self.m.compile(loss = 'mse', optimizer = 'rmsprop')
 
 	
 
 	def train(self, trainX, trainY):
 		print "IN TRAINING"
 		#might need a different cost function that mse to take into account the SO(3) nature of quaternions
-		self.m.fit(trainX, trainY,epochs = 300, batch_size=5)
+		self.m.fit(trainX, trainY,epochs = 300, batch_size=20)
 
 	def cost_function(self, y_true, y_pred):
 		# embed()
